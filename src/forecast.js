@@ -1,5 +1,5 @@
  const API_KEY = 'DcqmW9EmvIy8AqrV3GF2iiGUNB16843Z'
- const RESOURCE_URL ='http://dataservice.accuweather.com/'
+ const RESOURCE_URL ='https://dataservice.accuweather.com/'
 
  
 // Get city info and location Key 
