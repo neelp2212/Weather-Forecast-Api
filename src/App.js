@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { getCity, getWeather } from './forecast.js'
 import Card from "@material-ui/core/Card";
@@ -9,12 +8,12 @@ import CardMedia from "@material-ui/core/CardMedia";
 
 function App() {
   const [imgSrc, setImage] = useState("");
+  const [prediction, setPrediction] = useState("");
+  const [cityname, setCityName] = useState("");
 
   const getForecast = async (city) => {
     const key = await getCity(city);
-    console.log(key)
     const weatherData = await getWeather(key);
-    console.log(weatherData)
     
     const temperature = Math.round(weatherData.DailyForecasts[0].Temperature.Maximum.Value)
     let iconNumber = weatherData.DailyForecasts[0].Day.Icon;
@@ -23,13 +22,13 @@ function App() {
     }
     setImage('https://developer.accuweather.com/sites/default/files/' + iconNumber + '-s.png');
     const prediction = weatherData.DailyForecasts[0].Day.ShortPhrase;	
-    document.getElementById("showTemperature").innerHTML = temperature + '<sup style = "font-size: 60px;">&#8451</sup>';
-    document.getElementById("showPrediction").innerHTML = prediction;
+    document.getElementById('showTemperature').innerHTML = temperature + '<sup style = "font-size: 60px;">&#8451</sup>';
+    setPrediction(prediction)
   }
 
   const getTemperature = (e) => {
   const city = document.getElementById('city').value 
-  document.getElementById('cityName').innerHTML = city;
+  setCityName(city);
   getForecast(city)
 }
   return (
@@ -54,13 +53,14 @@ function App() {
             color="textSecondary"
             gutterBottom
             id = 'cityName'
-          >
+          >{cityname}
           </Typography>
           <Typography
             style={{ fontSize: 120, fontWeight: 600  }}
             color="textSecondary"
             id = 'showTemperature'
-          />
+          >
+          </Typography>
           <CardMedia id="testImage"
             component='img'
             image={imgSrc}
@@ -70,7 +70,8 @@ function App() {
             color="textSecondary"
             gutterBottom
             id = 'showPrediction'
-          />
+          >{prediction}
+          </Typography>
         </CardContent>
       </Card>
       </div> 
